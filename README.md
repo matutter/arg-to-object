@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/matutter/arg-to-object.svg?branch=master)](https://travis-ci.org/matutter/arg-to-object)
+
 =============== 
  ARG-TO-OBJECT
 =============== 
