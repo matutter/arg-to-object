@@ -1,10 +1,11 @@
 {
   "name": "arg-to-object",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "dynamically construct a command line parser based on the object provided to it",
   "main": "arg-to-object.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./test",
+    "test-w-coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,11 @@
   "bugs": {
     "url": "https://github.com/matutter/arg-to-object/issues"
   },
-  "homepage": "https://github.com/matutter/arg-to-object#readme"
+  "homepage": "https://github.com/matutter/arg-to-object#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.11",
+    "istanbul": "^0.4.4",
+    "mocha": "^2.5.3"
+  }
 }
