@@ -45,3 +45,11 @@ describe('when no arguments are provided', ()=> {
     assert.deepEqual(result, expected)
   })
 })
+
+describe('when a tak "-" is preasent with no value after', ()=> {
+  it('creates a boolean property of "true"', ()=>{
+    var expected = true
+    var result = ato.parse(['-val'])
+    assert.equal(result.val, expected)
+  })
+})

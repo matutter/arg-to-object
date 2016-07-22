@@ -36,7 +36,9 @@ function arg_to_object(args, obj) {
     key = normalizeKey(set[0])
     val = null
 
-    if(set.length == 2) {
+    if(set.length == 1) {
+      val = true // it exists, therefor it is true
+    } else if(set.length == 2) {
       // following string is json
       val = JSONParse(set[1])
     } else {
