@@ -1,3 +1,5 @@
+const fmt = require('util').format
+
 function normalizeKey(key) {
   var i = key.lastIndexOf('-')  
   return key.substr(i+1)
@@ -8,7 +10,11 @@ function JSONParse(str) {
   str = str.trim()
   var c = str[0] // test 1st character
   if(c == '[' || c == '{') {
-    return JSON.parse(str)
+    try {
+      return JSON.parse(str)
+    } catch(e) {
+      return eval(fmt("() => (%s)", str))()
+    }
   } else {
     var val = Number(str)
     return isNaN(val) ? str : val;
@@ -27,12 +33,11 @@ function arg_to_object(args, obj) {
 
   for(; argi < argc; ++argi) {
     set = args[argi]
-    key = set[0]
+    key = normalizeKey(set[0])
     val = null
 
-    if(key.startsWith('--') && set.length == 2) {
+    if(set.length == 2) {
       // following string is json
-      set = key.split('=')
       val = JSONParse(set[1])
     } else {
       val = []
@@ -40,8 +45,7 @@ function arg_to_object(args, obj) {
         val.push(JSONParse(set[i]))
       }
     }
-    
-    argo[normalizeKey(key)] = val
+    argo[key] = val
   }
   
   return Object.assign(obj, argo)
@@ -57,9 +61,13 @@ function parse(argv, obj) {
 
   // if arg1 is undefined use process.argv
   if(obj === undefined) {
-   obj = argv
-   argv = process.argv
+   obj = {}
   }
+  
+  if(!Array.isArray(argv)) {
+    argv = process.argv
+  }
+
   argc = argv.length
 
   for(var i = 0; i < argc; ++i) {
