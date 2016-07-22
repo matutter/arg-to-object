@@ -13,7 +13,7 @@ function JSONParse(str) {
     try {
       return JSON.parse(str)
     } catch(e) {
-      return eval(fmt("() => (%s)", str))()
+      return eval(fmt("(%s)", str))
     }
   } else {
     var val = Number(str)
