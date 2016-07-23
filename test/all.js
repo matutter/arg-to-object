@@ -46,6 +46,22 @@ describe('when no arguments are provided', ()=> {
   })
 })
 
+describe('when an object with defaults is provided, but no arguments', () => {
+  it('should use process.argv and fill the defaults objects', () => {
+    process.argv = [ '-key', '{key: "val"}' ]
+    var params = {
+      key : { key: 'overwrite me!' },
+      key2: 'unchanged'
+    }
+    var expected = {
+      key : { key: "val"},
+      key2: 'unchanged'
+    }
+    var result = ato.parse(params)
+    assert.deepEqual(result, expected)
+  })
+})
+
 describe('when a tak "-" is preasent with no value after', ()=> {
   it('creates a boolean property of "true"', ()=>{
     var expected = true

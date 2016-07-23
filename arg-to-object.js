@@ -61,15 +61,14 @@ function parse(argv, obj) {
   var args = []
   var argi = -1
 
-  // if arg1 is undefined use process.argv
-  if(obj === undefined) {
-   obj = {}
-  }
-  
-  if(!Array.isArray(argv)) {
-    argv = process.argv
+  if(argv && !Array.isArray(argv)) {
+    obj = argv
+    argv = null
   }
 
+  obj = obj || {}
+  argv = argv || process.argv
+  
   argc = argv.length
 
   for(var i = 0; i < argc; ++i) {
