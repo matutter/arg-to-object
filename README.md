@@ -14,8 +14,18 @@ function Params() {
 	this.recursive = false
 	this.ext = ''
 }
-
+// use a base object to resolve names
 var params = ato.parse(process.argv, new Params())
 
 console.log(params)
+```
+
+```node sample.js -files a b c -r -ext .conf```
+
+```javascript
+// without a base object to help resolve names
+var params = ato.parse()
+// params.files = [ 'a', 'b', 'c']
+// parmas.r = true
+// params.ext = '.conf'
 ```
