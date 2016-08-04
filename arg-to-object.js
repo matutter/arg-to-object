@@ -1,9 +1,5 @@
+const search = require('prefix-search').prefixSearch
 const fmt = require('util').format
-
-function normalizeKey(key) {
-  var i = key.lastIndexOf('-')  
-  return key.substr(i+1)
-}
 
 function JSONParse(str) {
   // we'll parse 3 types, valid json, number, and string
@@ -21,69 +17,56 @@ function JSONParse(str) {
   }
 }
 
-function arg_to_object(args, obj) {
-  if(args.length == 0) return obj
-
-  var argo = {}
-  var argc = args.length
-  var argi = 0
-  var key = null
+function asValue(data, length) {
   var val = null
-  var set = null
-
-  for(; argi < argc; ++argi) {
-    set = args[argi]
-    key = normalizeKey(set[0])
-    val = null
-
-    if(set.length == 1) {
-      val = true // it exists, therefor it is true
-    } else if(set.length == 2) {
-      // following string is json
-      val = JSONParse(set[1])
-    } else {
-      val = []
-      for(var i=1; i < set.length; ++i) {
-        val.push(JSONParse(set[i]))
-      }
-    }
-    argo[key] = val
-  }
-  
-  return Object.assign(obj, argo)
+  if(length == 0)
+    val = true
+  else if(length == 1)
+    val = JSONParse(data[0])
+  else
+    val = data.map(JSONParse)  
+  return val
 }
 
+function resolveKey(key, keys) {
+  key = key.substr( key.lastIndexOf('-') + 1 )  
+  
+  if(keys.length) {
+    var i = search(key, keys)
+    if(~i) key = keys[i]
+  }
+
+  return key
+}
 
 // parse argv into [[key, val]] array
 function parse(argv, obj) {
-
-  var argc = 0   // i really like the work arg! like a pirate kinda
-  var args = []
-  var argi = -1
 
   if(argv && !Array.isArray(argv)) {
     obj = argv
     argv = null
   }
 
-  obj = obj || {}
+  obj = Object.assign(obj, {}) // todo check this
   argv = argv || process.argv
   
-  argc = argv.length
+  var keys = Object.keys(obj)
+  var len = argv.length
+  var i = 0
+  var k = 0
 
-  for(var i = 0; i < argc; ++i) {
-    var arg = argv[i]
-    if(arg.startsWith('-')) {
-      argi++
-      args.push([arg])
-      continue
-    }
-    if(~argi) {
-      args[argi].push(arg)
-    }
+  while(i < len) {
+    if(argv[i].startsWith('-')) {
+      k = i++
+      for(; i < len && !argv[i].startsWith('-'); ++i);
+      var key = resolveKey(argv[k], keys)
+      var data = argv.slice(k+1, i)
+      var data_length = data.length
+      obj[key] = asValue(data, data_length)
+    } else i++    
   }
   
-  return arg_to_object(args, obj)
+  return obj
 }
 
 module.exports.parse = parse
