@@ -47,7 +47,7 @@ function parse(argv, obj) {
     argv = null
   }
 
-  obj = Object.assign(obj, {}) // todo check this
+  obj = obj ? Object.assign(obj, {}) : {} // todo check this
   argv = argv || process.argv
   
   var keys = Object.keys(obj)
