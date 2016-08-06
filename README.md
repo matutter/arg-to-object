@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/matutter/arg-to-object.svg?branch=master)](https://travis-ci.org/matutter/arg-to-object) [![Coverage Status](https://coveralls.io/repos/github/matutter/arg-to-object/badge.svg?branch=master)](https://coveralls.io/github/matutter/arg-to-object?branch=master)
+[![Build Status](https://travis-ci.org/matutter/arg-to-object.svg?branch=master)](https://travis-ci.org/matutter/arg-to-object) [![Coverage Status](https://coveralls.io/repos/github/matutter/arg-to-object/badge.svg?branch=master)](https://coveralls.io/github/matutter/arg-to-object?branch=master) [![dependencies Status](https://david-dm.org/matutter/arg-to-object/status.svg)](https://david-dm.org/matutter/arg-to-object)
 
 # ARG-TO-OBJECT
 
