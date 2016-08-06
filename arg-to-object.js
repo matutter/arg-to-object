@@ -1,4 +1,4 @@
-const search = require('prefix-search').prefixSearch
+const search = require('prefix-search').search
 const fmt = require('util').format
 
 function JSONParse(str) {
