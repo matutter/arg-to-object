@@ -1,4 +1,5 @@
 const search = require('prefix-search').search
+const splitargs = require('splitargs')
 const fmt = require('util').format
 
 function JSONParse(str) {
@@ -42,7 +43,9 @@ function resolveKey(key, keys) {
 // parse argv into [[key, val]] array
 function parse(argv, obj) {
 
-  if(argv && !Array.isArray(argv)) {
+  if(typeof argv === 'string') {
+    argv = splitargs(argv)
+  } else if(argv && !Array.isArray(argv)) {
     obj = argv
     argv = null
   }
