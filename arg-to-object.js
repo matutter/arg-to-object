@@ -14,7 +14,15 @@ function JSONParse(str) {
     }
   } else {
     var val = Number(str)
-    return isNaN(val) ? str : val;
+    if(isNaN(val)) {
+      switch(str.toLowerCase()) {
+        case 'true': return true
+        case 'false': return false
+        default: return str
+      }
+    } else {
+      return val
+    }
   }
 }
 

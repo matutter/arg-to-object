@@ -2,39 +2,54 @@
 
 # ARG-TO-OBJECT
 
+ATO is a quick-and-dirty argument parser meant for situations when a complicated CLI isn't necessary.
 
+Use `process.argv` by default.
 ```javascript
-// sample.js
-
 const ato = require('arg-to-object')
-
-function Params() {
-	this.files = []
-	this.recursive = false
-	this.ext = ''
-}
-
-var params = ato.parse(process.argv, new Params())
-```
-
-Without a base object to help resolve names.
-
-```javascript
-// node sample.js -files a b c -r -ext .conf
 var params = ato.parse()
-// params.files = ['a', 'b', 'c']
-// parmas.r = true
-// params.ext = '.conf'
 ```
 
-[Prefix-search][1] allows well named variables to be resolved by simple tak-shorthand.
-
+An object can be used for defaults.
 ```javascript
-// the below behaves identical to the first example when the object is seeded
-// node sample.js -f a b c -r -e .conf
-var params = { files: [], recursive: false, extension: '' }
-params = ato.parse(params)
-// params = { files: ['a', 'b', 'c'], recursive: true, ...}
+// node sample.js -files a b c -r false
+var defaults = { files: [], recursive: true }
+var params = ato.parse(defaults)
+
+/*
+ * {
+ *   files: ["a", "b", "c"],
+ *   recursive: false
+ * }
+ */
 ```
 
-[1]: https://www.npmjs.com/package/prefix-search
+Argument shorthands are expanded by a simple prefix-search
+```javascript
+// node sample.js -f a b c -r 
+params = ato.parse(defaults)
+
+/* '-f' extends to 'files'
+ * { files: ["a", "b", "c"], ... }
+ */ 
+```
+
+Pass in arguments manually.
+```javascript
+ato.parse(process.argv, defaults)
+```
+
+Without a default object, the parsed object will constructed with _-tak_s as keys.
+The arguments `-f a b c -r` will yield
+```javascript
+{
+  f: ["a", "b", "c"],
+  r: true
+}
+```
+
+Type interpolation examples.  
+args=`-r` result=`{r: true}`  
+args=`-r 1 2 3` result=`{r: [1, 2, 3]}`  
+args=`-r false` result=`{r: false}`  
+args=`-r -f hello` result=`{r: true, f: 'hello'}`  

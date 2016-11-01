@@ -1,12 +1,19 @@
 var ato = require('..')
 var assert = require('chai').assert
 
-var args = '-args are "so awesome"'
-var res = { args: [ 'are', 'so awesome'] }
 
-describe('on the string "'+args+'"', ()=> {
-  it('should produce {args: ["are", "so awesome"]}', ()=> {
-    var params = ato.parse(args, {})
-    assert.deepEqual(res, params)
+var args = ['-tak']
+describe(`ato.parse( ${args} )`, ()=> {
+  it('should interpreted the existence of a lone tak to be truthy', ()=> {
+    var res = ato.parse(args, {})
+    assert(res.tak, 'tag was not truthy')
+  })
+})
+
+var args2 = ['-tak', 'false']
+describe(`ato.parse( ${args2} )`, ()=> {
+  it('should set tak=false', ()=> {
+    var res = ato.parse(args2, {})
+    assert(!res.tak , 'tak was truthy')
   })
 })

@@ -62,10 +62,3 @@ describe('when an object with defaults is provided, but no arguments', () => {
   })
 })
 
-describe('when a tak "-" is preasent with no value after', ()=> {
-  it('creates a boolean property of "true"', ()=>{
-    var expected = true
-    var result = ato.parse(['-val'])
-    assert.equal(result.val, expected)
-  })
-})

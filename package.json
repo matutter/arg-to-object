@@ -1,11 +1,12 @@
 {
   "name": "arg-to-object",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "dynamically construct a command line parser based on the object provided to it",
   "main": "arg-to-object.js",
   "scripts": {
-    "test": "mocha ./test",
-    "test-w-coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/"
+    "test": "mocha ./test/test.js",
+    "test-w-coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- ./test/test.js",
+    "debug": "nodemon --exec 'npm test'"
   },
   "repository": {
     "type": "git",
