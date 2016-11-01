@@ -39,7 +39,7 @@ Pass in arguments manually.
 ato.parse(process.argv, defaults)
 ```
 
-Without a default object, the parsed object will constructed with _-tak_s as keys.
+Without a default object, the parsed object is constructed with *-tak*s as keys.
 The arguments `-f a b c -r` will yield
 ```javascript
 {
